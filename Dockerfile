@@ -152,6 +152,6 @@ RUN mkdir -p /opt/data && mkdir /www
 ADD static /www/static
 
 EXPOSE 1935
-EXPOSE 80
+EXPOSE 80 
 
 CMD ["/opt/nginx/sbin/nginx"]
