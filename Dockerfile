@@ -48,8 +48,8 @@ RUN cd /tmp/nginx-${NGINX_VERSION} && \
   --with-threads \
   --with-file-aio \
   --with-http_ssl_module \
-  --error-log-path=/opt/nginx/logs/error.log \
-  --http-log-path=/opt/nginx/logs/access.log \
+  --error-log-path=/var/log/nginx/error.log \
+  --http-log-path=/var/log/nginx/access.log \
   --with-debug && \
   cd /tmp/nginx-${NGINX_VERSION} && make && make install
 
@@ -146,6 +146,10 @@ COPY --from=build-nginx /opt/nginx /opt/nginx
 COPY --from=build-ffmpeg /usr/local /usr/local
 COPY --from=build-ffmpeg /usr/lib/libfdk-aac.so.1 /usr/lib/libfdk-aac.so.1
 
+# Forward logs to docker
+RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
+    
 # Add NGINX config and static files.
 ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data && mkdir /www
