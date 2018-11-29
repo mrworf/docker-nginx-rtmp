@@ -44,7 +44,7 @@ RUN cd /tmp/nginx-${NGINX_VERSION} && \
   ./configure \
   --prefix=/opt/nginx \
   --add-module=/tmp/nginx-rtmp-module-${NGINX_RTMP_VERSION} \
-  --conf-path=/opt/nginx/nginx.conf \
+  --conf-path=/etc/nginx/nginx.conf \
   --with-threads \
   --with-file-aio \
   --with-http_ssl_module \
@@ -147,7 +147,7 @@ COPY --from=build-ffmpeg /usr/local /usr/local
 COPY --from=build-ffmpeg /usr/lib/libfdk-aac.so.1 /usr/lib/libfdk-aac.so.1
 
 # Add NGINX config and static files.
-ADD nginx.conf /opt/nginx/nginx.conf
+ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data && mkdir /www
 ADD static /www/static
 
